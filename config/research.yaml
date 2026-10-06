@@ -1,0 +1,26 @@
+# Queries sent for each selected company. Add a block to add a search.
+# time_boxed queries pass Tavily start_date = today minus window_days (~18 months).
+# Vendor/install searches stay open-ended so an older AutoStore or Bastian
+# project still shows up.
+
+window_days: 548
+search_depth: advanced
+max_results: 4
+
+queries:
+  - id: news
+    topic: news
+    time_boxed: true
+    template: '{company} {facility_city} {state} (expansion OR "new facility" OR warehouse OR "distribution center" OR acquisition OR investment OR opening)'
+  - id: hiring
+    topic: news
+    time_boxed: true
+    template: '{company} {state} (hiring OR jobs OR careers) (warehouse OR "material handler" OR automation OR "supply chain" OR logistics OR "plant")'
+  - id: leadership
+    topic: news
+    time_boxed: true
+    template: '{company} (appointed OR named OR promoted OR "joins as") (operations OR "supply chain" OR warehouse OR logistics OR "plant manager" OR "distribution")'
+  - id: automation
+    topic: general
+    time_boxed: false
+    template: '{company} (AutoStore OR "Bastian Solutions" OR "Toyota Automated Logistics" OR viastore OR Dematic OR Vanderlande OR Swisslog OR "goods-to-person" OR "AS/RS" OR AMR OR AGV)'

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Sign in · Ohio Desk{% endblock %}
+{% block content %}
+<section class="narrow">
+  <h1>Sign in</h1>
+  <p class="lede">This desk holds prospect names, emails, and drafts. One shared password, set as <code>APP_PASSWORD</code>, keeps the list off the open internet.</p>
+  {% if missing %}
+  <p class="banner warn">APP_PASSWORD is empty, so sign-in is locked. Set it in the environment and restart.</p>
+  {% endif %}
+  {% if error %}
+  <p class="banner bad">{{ error }}</p>
+  {% endif %}
+  <form method="post" action="/login" class="stack">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required>
+    <button type="submit">Enter</button>
+  </form>
+</section>
+{% endblock %}

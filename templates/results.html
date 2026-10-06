@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Drafts · Ohio Desk{% endblock %}
+{% block content %}
+<p class="crumb"><a href="/batches/{{ batch.id }}">{{ batch.filename }}</a> / Drafts</p>
+<div class="title-row">
+  <h1>Review before export</h1>
+  <div class="toolbar tight">
+    <a class="button" href="/batches/{{ batch.id }}/export.xlsx">Download Excel</a>
+    <a class="button secondary" href="/batches/{{ batch.id }}/export.docx">Download Word</a>
+  </div>
+</div>
+<p class="lede">Excel is one row per processed company for a Word or Outlook mail merge. <code>Status</code> is <strong>verified</strong> or <strong>needs review</strong>. Existing Bastian/TAL customers are left out of both files. A needs-review row is never labeled verified.</p>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Company</th><th>Contact</th><th>Status</th><th>Step</th></tr>
+    </thead>
+    <tbody>
+      {% for company in companies %}
+      {% set contact = company.primary_contact %}
+      <tr>
+        <td><a href="/companies/{{ company.id }}">{{ company.name }}</a></td>
+        <td>{% if contact %}{{ contact.first_name }} {{ contact.last_name }}{% endif %}</td>
+        <td><span class="status {{ company.status }}">{{ company.status|replace('_', ' ') }}</span></td>
+        <td>{{ company.step }}{% if company.error %} — {{ company.error }}{% endif %}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4">No companies have been processed yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Progress · Ohio Desk{% endblock %}
+{% block content %}
+<p class="crumb"><a href="/batches/{{ batch.id }}">{{ batch.filename }}</a> / Progress</p>
+<h1>Working through the list</h1>
+<p class="lede" id="progress-lede">Each company is researched, drafted, and fact-checked on its own. You can leave this page open.</p>
+<div id="progress" data-url="/api/batches/{{ batch.id }}/progress" data-results="/batches/{{ batch.id }}/results">
+  <p class="hint">Loading status…</p>
+</div>
+{% endblock %}

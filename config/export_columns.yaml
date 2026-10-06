@@ -1,0 +1,21 @@
+# Mail-merge workbook columns, in order.
+# Change headers or reorder here. field must be one of the keys the exporter fills:
+# first_name, last_name, full_name, email, title, company, subject, body,
+# followup_subject, followup_body, trigger_source, status, proof_point, city
+#
+# status is exactly "verified" or "needs review".
+# body and followup_body are plain text; line breaks are real newline characters.
+
+columns:
+  - {header: FirstName, field: first_name}
+  - {header: LastName, field: last_name}
+  - {header: FullName, field: full_name}
+  - {header: Email, field: email}
+  - {header: Title, field: title}
+  - {header: Company, field: company}
+  - {header: Subject, field: subject}
+  - {header: Body, field: body}
+  - {header: FollowUpSubject, field: followup_subject}
+  - {header: FollowUpBody, field: followup_body}
+  - {header: TriggerSource, field: trigger_source}
+  - {header: Status, field: status}

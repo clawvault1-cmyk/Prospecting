@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Upload · Ohio Desk{% endblock %}
+{% block content %}
+<section class="split">
+  <div>
+    <h1>Rank an Ohio list, then draft from sources.</h1>
+    <p class="lede">Upload a ZoomInfo export. Ohio Desk keeps companies with an Ohio facility and a warehouse, distribution, manufacturing, 3PL, retail, or parts fit, picks the best operations contact, and — for the companies you choose — researches, writes, and fact-checks a short email.</p>
+    <p class="mode-note">{{ mode.detail }}</p>
+    {% if error %}
+    <p class="banner bad">{{ error }}</p>
+    {% endif %}
+    <form method="post" action="/batches" enctype="multipart/form-data" class="stack card">
+      <label for="file">Excel or CSV export</label>
+      <input id="file" name="file" type="file" accept=".csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" required>
+      <button type="submit">Score this file</button>
+    </form>
+    <form method="post" action="/demo" class="inline">
+      <button class="secondary" type="submit">Load the fictional sample</button>
+      <span class="hint">Same columns as a ZoomInfo export. No real people.</span>
+    </form>
+  </div>
+  <aside>
+    <h2>Recent lists</h2>
+    {% if batches %}
+    <ul class="plain">
+      {% for batch in batches %}
+      <li>
+        <a href="/batches/{{ batch.id }}">{{ batch.filename }}</a>
+        <span>{{ batch.included_count }} of {{ batch.company_count }} kept</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="hint">No lists yet.</p>
+    {% endif %}
+    <h2>Where to edit the rules</h2>
+    <ul class="plain small">
+      <li><code>config/email_rules.md</code> structure and tone</li>
+      <li><code>config/style.yaml</code> word counts and banned words</li>
+      <li><code>config/proof_points.yaml</code> the only proof the writer may use</li>
+      <li><code>config/export_columns.yaml</code> mail-merge headers</li>
+    </ul>
+  </aside>
+</section>
+{% endblock %}

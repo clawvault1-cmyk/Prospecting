@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ohio-desk
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: APP_PASSWORD
+        sync: false
+      - key: APP_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+      - key: LLM_PROVIDER
+        value: auto
+      - key: SEARCH_PROVIDER
+        value: auto
+      - key: OPENAI_BASE_URL
+        value: https://api.openai.com/v1
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: DATA_DIR
+        value: /var/data

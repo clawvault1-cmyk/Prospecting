@@ -1,0 +1,71 @@
+# Company and contact fit for an Ohio warehouse-automation conversation.
+# A company is kept when it has an Ohio facility (company state or any contact
+# state) and at least min_industry_points. Everything else is listed as excluded.
+
+require_ohio: true
+ohio_company_points: 40
+ohio_contact_points: 25
+min_industry_points: 15
+industry_cap: 40
+
+categories:
+  manufacturing:
+    points: 20
+    tags: [manufacturing]
+    keywords: ["manufactur", "industrial"]
+  distribution:
+    points: 20
+    tags: [dc]
+    keywords: ["distribut", "wholesale"]
+  three_pl:
+    points: 20
+    tags: [dc]
+    keywords: ["3pl", "third-party logistic", "third party logistic", "logistics", "warehousing"]
+  retail_dc:
+    points: 16
+    tags: [ecommerce]
+    keywords: ["retail", "e-commerce", "ecommerce", "fulfillment"]
+  parts:
+    points: 16
+    tags: [parts]
+    keywords: ["parts", "aftermarket", "automotive"]
+
+# Size uses the better of the employee tier and the revenue tier.
+employee_tiers:
+  - {min: 1000, points: 25}
+  - {min: 250, points: 22}
+  - {min: 50, points: 14}
+  - {min: 20, points: 8}
+  - {min: 0, points: 4}
+
+# Revenue column is ZoomInfo "Revenue (in 000s USD)".
+revenue_tiers_000s:
+  - {min: 100000, points: 25}
+  - {min: 25000, points: 20}
+  - {min: 5000, points: 12}
+  - {min: 0, points: 4}
+
+# Best contact: warehouse / DC / logistics / supply chain / plant / operations,
+# manager through VP. Ohio and a usable email are preferred.
+persona:
+  levels:
+    vp: 30
+    director: 26
+    manager: 22
+    supervisor: 14
+    other: 4
+  keywords:
+    warehouse: 24
+    "distribution center": 24
+    distribution: 20
+    logistics: 18
+    "supply chain": 18
+    fulfillment: 16
+    plant: 16
+    operations: 12
+  ohio_bonus: 15
+  email_bonus: 18
+  no_email_penalty: -10
+  # Rank score adds a fraction of the best contact so a strong persona
+  # breaks ties without drowning out company fit.
+  rank_weight: 0.15

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}{{ company.name }} · Ohio Desk{% endblock %}
+{% block content %}
+<p class="crumb"><a href="/batches/{{ company.batch_id }}">List</a> / {{ company.name }}</p>
+<div class="title-row">
+  <h1>{{ company.name }}</h1>
+  <span class="status {{ company.status }}">{{ company.status|replace('_', ' ') }}</span>
+</div>
+<p class="why">{{ company.score_notes }}</p>
+{% if company.exclude_reason %}
+<p class="banner warn">{{ company.exclude_reason }}</p>
+{% endif %}
+{% if company.existing_customer %}
+<p class="banner bad">Existing Bastian/TAL customer. No prospecting email was written. {{ company.existing_customer_note }}</p>
+{% endif %}
+
+<section class="grid-2">
+  <div>
+    <h2>Contacts</h2>
+    <ul class="plain">
+      {% for contact in company.contacts %}
+      <li>
+        <strong>{{ contact.first_name }} {{ contact.last_name }}</strong>
+        {% if contact.is_primary %}<span class="tag">Primary</span>{% endif %}
+        <div class="sub">{{ contact.title }}{% if contact.email %} · {{ contact.email }}{% else %} · no email{% endif %}</div>
+        <div class="sub">{{ contact.person_city }} {{ contact.person_state }} · {{ contact.persona_notes }}</div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if company.included and company.status in ['pending', 'error', 'needs_review', 'verified', 'existing_customer'] %}
+    <form method="post" action="/companies/{{ company.id }}/process">
+      <button type="submit">{% if company.email %}Run again{% else %}Research and draft{% endif %}</button>
+    </form>
+    {% endif %}
+  </div>
+  <div>
+    <h2>Sources</h2>
+    {% if company.sources %}
+    <ol class="sources">
+      {% for source in company.sources %}
+      <li>
+        <a href="{{ source.url }}" rel="noreferrer">{{ source.title or source.url }}</a>
+        <div class="sub">{{ source.query_id }}</div>
+        <p>{{ source.snippet }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="hint">Sources appear after this company is processed.</p>
+    {% endif %}
+    {% if company.detected_tech %}
+    <p class="hint">Technology mentioned in research: {{ company.detected_tech|join(', ') }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% if company.email %}
+{% set email = company.email %}
+{% set validation = email.validation or {} %}
+<section>
+  <h2>Draft</h2>
+  {% if saved %}
+  <p class="banner ok">Saved. Checks ran again against the stored sources.</p>
+  {% endif %}
+  {% for error in validation.errors or [] %}
+  <p class="banner bad">{{ error }}</p>
+  {% endfor %}
+  {% for warning in validation.warnings or [] %}
+  <p class="banner warn">{{ warning }}</p>
+  {% endfor %}
+  <form method="post" action="/companies/{{ company.id }}" class="stack" id="email-form">
+    <div class="pair">
+      <label for="subject">Subject <span id="subject-meta" class="hint"></span></label>
+      <input id="subject" name="subject" value="{{ email.subject }}">
+    </div>
+    <label for="body">Body <span class="hint">{{ validation.body_words or 0 }} words on last check</span></label>
+    <textarea id="body" name="body" rows="12">{{ email.body }}</textarea>
+    <p class="hint" id="body-count"></p>
+    <div class="pair">
+      <label for="followup_subject">Follow-up subject</label>
+      <input id="followup_subject" name="followup_subject" value="{{ email.followup_subject }}">
+    </div>
+    <label for="followup_body">Day-3 follow-up <span class="hint">{{ validation.followup_words or 0 }} words on last check</span></label>
+    <textarea id="followup_body" name="followup_body" rows="4">{{ email.followup_body }}</textarea>
+    <p class="hint" id="follow-count"></p>
+    <label for="trigger_source_url">Trigger source</label>
+    <select id="trigger_source_url" name="trigger_source_url">
+      <option value="">—</option>
+      {% for source in company.sources %}
+      <option value="{{ source.url }}" {% if source.url == email.trigger_source_url %}selected{% endif %}>{{ source.title or source.url }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Save and re-check</button>
+  </form>
+</section>
+
+<section>
+  <h2>Fact check</h2>
+  {% if company.claims %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Claim</th><th>Label</th><th>Support</th></tr></thead>
+      <tbody>
+        {% for claim in company.claims %}
+        <tr>
+          <td>{{ claim.claim }}</td>
+          <td><span class="status {{ claim.label|lower }}">{{ claim.label }}</span></td>
+          <td class="why">
+            {{ claim.source_quote }}
+            {% if claim.source_url %}<div class="sub">{{ claim.source_url }}</div>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="hint">No claim table yet.</p>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

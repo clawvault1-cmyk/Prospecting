@@ -1,0 +1,46 @@
+# Enforced by code on every draft, rewrite, and hand edit.
+# The writer prompt is built from this file, so changes apply on the next company.
+
+body_max_words: 100
+body_target_min: 60
+body_target_max: 90
+body_min_words: 45
+followup_max_words: 40
+followup_min_words: 8
+subject_min_words: 1
+subject_max_words: 4
+
+# Whole word or phrase, case-insensitive. Add inflections you want blocked.
+banned:
+  - synergy
+  - cutting-edge
+  - leverage
+  - leveraged
+  - leveraging
+  - revolutionize
+  - revolutionizing
+  - revolutionary
+  - solutions
+  - seamless
+  - best-in-class
+  - ai-powered
+  - game-changer
+  - just checking in
+  - 15 minutes
+  - quick call
+  - touch base
+  - circle back
+  - world-class
+
+# Patterns that count as asking for a meeting. "schedule" alone is allowed
+# so a sourced phrase like "shipping schedule" can stay; "schedule a call" still fails.
+meeting_patterns:
+  - '\bmeetings?\b'
+  - '\bcalls?\b'
+  - '\bcalendar\b'
+  - '\bschedule (a |some )?time\b'
+  - '\bhop on\b'
+  - '\bbook (a )?time\b'
+  - '\bjump on\b'
+  - '\b15 minutes\b'
+  - '\btouch base\b'

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{{ batch.filename }} · Ohio Desk{% endblock %}
+{% block content %}
+<p class="crumb"><a href="/">Lists</a> / {{ batch.filename }}</p>
+<div class="title-row">
+  <h1>{{ included|length }} companies to consider</h1>
+  <p class="hint">{{ excluded|length }} excluded · scored {{ batch.created_at }}</p>
+</div>
+{% if notice %}
+<p class="banner warn">{{ notice }}</p>
+{% endif %}
+<p class="lede">Check the companies you want researched. Nothing is sent, and nothing is searched, until you process the selection. In live mode each company is several web searches plus two or more model calls.</p>
+
+<form method="post" action="/batches/{{ batch.id }}/process" id="process-form">
+  <div class="toolbar">
+    <button type="button" id="select-top" data-count="10">Select top 10</button>
+    <label class="inline-label">Top <input id="top-n" type="number" min="1" value="5" inputmode="numeric"> <button type="button" id="select-n">Select</button></label>
+    <button type="button" class="text" id="select-none">Clear</button>
+    <span class="hint" id="selection-count" data-queries="{{ query_count }}">0 selected</span>
+    <button type="submit">Process selected</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Company</th>
+          <th>Fit</th>
+          <th>Best contact</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for company in included %}
+        {% set contact = company.primary_contact %}
+        <tr>
+          <td><input type="checkbox" name="company_ids" value="{{ company.id }}" {% if not contact or not contact.email %}data-no-email="1"{% endif %}></td>
+          <td>
+            <a href="/companies/{{ company.id }}">{{ company.name }}</a>
+            <div class="sub">{{ company.facility_city }}{% if company.state %} · {{ company.state }}{% endif %}{% if company.primary_industry %} · {{ company.primary_industry }}{% endif %}</div>
+          </td>
+          <td class="num">{{ company.rank_score|int }}</td>
+          <td>
+            {% if contact %}
+            {{ contact.first_name }} {{ contact.last_name }}
+            <div class="sub">{{ contact.title }}</div>
+            <div class="sub">{% if contact.email %}{{ contact.email }}{% else %}No email{% endif %}</div>
+            {% endif %}
+          </td>
+          <td class="why">{{ company.score_notes }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">Nothing in this file matched Ohio plus an industry fit.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</form>
+
+{% if excluded %}
+<details>
+  <summary>Excluded ({{ excluded|length }})</summary>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Location</th><th>Reason</th></tr></thead>
+      <tbody>
+        {% for company in excluded %}
+        <tr>
+          <td>{{ company.name }}</td>
+          <td>{{ company.city }} {{ company.state }}</td>
+          <td>{{ company.exclude_reason }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</details>
+{% endif %}
+{% endblock %}

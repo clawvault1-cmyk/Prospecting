@@ -1,0 +1,58 @@
+# Exact published facts only. email_line is a sentence the writer may copy;
+# it must not add numbers or outcomes that are absent from wording.
+# pitch is the technology we would be recommending; if research shows the
+# prospect already runs it, this proof point is deprioritized.
+
+points:
+  - id: polaris_wilmington
+    name: Polaris Wilmington, OH DC
+    order: 1
+    tags: [dc, parts, labor, storage, ecommerce]
+    pitch: [autostore]
+    anchors: [polaris]
+    forbidden: ["storage capacity"]
+    wording: "Polaris Wilmington, OH DC: AutoStore + Packsize + Exacta, integrated by Bastian; about 150% faster pick rate, about 50% less pick-to-pack time, roughly tripled SKU capacity (NOT storage capacity)."
+    search_text: "Polaris Wilmington, OH DC: AutoStore + Packsize + Exacta, integrated by Bastian; about 150% faster pick rate, about 50% less pick-to-pack time, roughly tripled SKU capacity."
+    email_line: "Polaris put AutoStore, Packsize and Exacta into its Wilmington, OH DC, integrated by Bastian, with about 150% faster pick rate, about 50% less pick-to-pack time, and roughly tripled SKU capacity."
+    sources:
+      - https://www.autostoresystem.com/cases/polaris-sees-150-faster-pick-rate-with-autostore
+      - https://www.dcvelocity.com/industry-press-room/bastian-solutions-drives-polaris-facility-expansion-with-packsize-and-autostoreintegration-enhancing-employee-and-customer-experience
+
+  - id: cnh_indianapolis
+    name: CNH Industrial Indianapolis parts DC
+    order: 2
+    tags: [dc, parts]
+    pitch: [autostore]
+    anchors: [cnh]
+    forbidden: []
+    wording: "CNH Industrial Indianapolis parts DC: AutoStore system Bastian put in handles about 65% of volume (14,000-15,000 order lines/day)."
+    search_text: "CNH Industrial Indianapolis parts DC: AutoStore system Bastian put in handles about 65% of volume (14,000-15,000 order lines/day)."
+    email_line: "At CNH Industrial's Indianapolis parts DC, an AutoStore system Bastian put in handles about 65% of volume, about 14,000-15,000 order lines a day."
+    sources:
+      - https://www.autostoresystem.com/cases/cnh-industrial-increases-speed-throughput-accuracy
+
+  - id: garmin_olathe
+    name: Garmin Olathe, KS DC
+    order: 3
+    tags: [dc, labor]
+    pitch: [conveyor, sortation]
+    anchors: [garmin]
+    forbidden: []
+    wording: "Garmin Olathe, KS DC: ExactaWCS + conveyor + sortation from Bastian; two 8-hour shifts of 20 people to one 10-hour shift of 7-8."
+    search_text: "Garmin Olathe, KS DC: ExactaWCS + conveyor + sortation from Bastian; two 8-hour shifts of 20 people to one 10-hour shift of 7-8."
+    email_line: "At Garmin's Olathe, KS DC, ExactaWCS, conveyor and sortation from Bastian took the work from two 8-hour shifts of 20 people to one 10-hour shift of 7-8."
+    sources:
+      - https://www.casestudies.com/company/bastian-solutions/case-study/garmin-customer-case-study
+
+  - id: aap_st_marys
+    name: AAP St. Mary's, OH wheel plant
+    order: 4
+    tags: [manufacturing, storage]
+    pitch: [asrs]
+    anchors: ["st. mary", "st mary", "aap"]
+    forbidden: []
+    wording: "AAP St. Mary's, OH wheel plant: AS/RS storage buffer + conveyor Bastian built, with Exacta; cut forklift traffic and manual handling, improved inventory visibility (no % published)."
+    search_text: "AAP St. Mary's, OH wheel plant: AS/RS storage buffer + conveyor Bastian built, with Exacta; cut forklift traffic and manual handling, improved inventory visibility."
+    email_line: "At AAP's St. Mary's, OH wheel plant, Bastian built an AS/RS storage buffer and conveyor with Exacta that cut forklift traffic and manual handling and improved inventory visibility."
+    sources:
+      - https://www.casestudies.com/company/bastian-solutions/case-study/aap-st-marys-customer-case-study
